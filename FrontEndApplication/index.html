@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shortly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">shortly</a>
+        <button class="hamburger" id="hamburger">
+            <span class="material-icons">menu</span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="index.html#features">Features</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section" id="hero">
+            <h1>shortly the URL Shortener</h1>
+            <p>Shorten your URLs quickly and easily</p>
+        </div>
+        <div class="url-shortener">
+            <form class="url-form" id="urlForm">
+                <div class="input-container">
+                    <input type="url" class="url-input" id="urlInput" placeholder="Paste link here..." required>
+                    <button type="button" class="paste-btn" id="pasteBtn">
+                        <span class="material-icons">content_paste</span>
+                        Paste
+                    </button>
+                </div>
+                <button type="submit" class="download-btn">Shorten</button>
+            </form>
+        </div>
+
+        <section id="features" class="section features-section">
+            <h2 class="section-title">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="material-icons">flash_on</span>
+                    <h3>Lightning Fast</h3>
+                    <p>Generate short URLs instantly with our optimized algorithm</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">security</span>
+                    <h3>Secure Links</h3>
+                    <p>All shortened URLs are protected and monitored for safety</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">analytics</span>
+                    <h3>Click Analytics</h3>
+                    <p>Track your link performance with detailed click statistics</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">devices</span>
+                    <h3>Cross Platform</h3>
+                    <p>Works seamlessly across all your devices and browsers</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="lead-text">We're on a mission to make the web more accessible, one short link at a time.
+                    </p>
+                    <p>Shortly was born from a simple idea: make sharing links easier and more efficient. Our team of
+                        passionate developers and designers work tirelessly to provide you with the best URL shortening
+                        experience possible.</p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-number">10M+</span>
+                            <span class="stat-label">Links Shortened</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5M+</span>
+                            <span class="stat-label">Happy Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="material-icons">email</span>
+                        <div>
+                            <h3>Email Us</h3>
+                            <p>support@shortly.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons">location_on</span>
+                        <div>
+                            <h3>Visit Us</h3>
+                            <p>123 Web Street, Internet City, IN 12345</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons">support_agent</span>
+                        <div>
+                            <h3>Call Us</h3>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="Facebook">
+                    <span class="material-icons">facebook</span>
+                </a>
+                <a href="#" target="_blank" aria-label="Twitter">
+                    <span class="material-icons">alternate_email</span>
+                </a>
+                <a href="#" target="_blank" aria-label="Instagram">
+                    <span class="material-icons">photo_camera</span>
+                </a>
+                <a href="#" target="_blank" aria-label="GitHub">
+                    <span class="material-icons">code</span>
+                </a>
+            </div>
+            <div class="copyright">
+                © 2025 shortly
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
