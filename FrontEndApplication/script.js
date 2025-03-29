@@ -1,63 +1,162 @@
-document.getElementById("pasteBtn").addEventListener("click", async () => {
-  try {
-    const text = await navigator.clipboard.readText();
-    document.getElementById("urlInput").value = text;
-  } catch (err) {
-    console.error("Failed to read clipboard:", err);
-  }
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const urlForm = document.getElementById("urlForm");
+  const urlInput = document.getElementById("urlInput");
+  const pasteBtn = document.getElementById("pasteBtn");
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("navLinks");
+  let isMenuOpen = false;
 
-document.getElementById("urlForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const url = document.getElementById("urlInput").value;
-  console.log("URL to shorten:", url);
-});
+  // Handle paste button
+  pasteBtn.addEventListener("click", async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      urlInput.value = text;
+    } catch (err) {
+      console.error("Failed to read clipboard:", err);
+    }
+  });
 
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
-let isMenuOpen = false;
+  // Handle form submission
+  urlForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const url = urlInput.value.trim();
 
-hamburger.addEventListener("click", () => {
-  isMenuOpen = !isMenuOpen;
-  navLinks.classList.toggle("active");
-  hamburger.querySelector(".material-icons").textContent = isMenuOpen
-    ? "close"
-    : "menu";
-});
+    if (!url) {
+      alert("Please enter a URL");
+      return;
+    }
 
-document.addEventListener("click", (e) => {
-  if (
-    isMenuOpen &&
-    !navLinks.contains(e.target) &&
-    !hamburger.contains(e.target)
-  ) {
-    isMenuOpen = false;
-    navLinks.classList.remove("active");
-    hamburger.querySelector(".material-icons").textContent = "menu";
-  }
-});
+    try {
+      const response = await fetch("http://localhost:8080/api/url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
 
-// Close mobile menu when clicking navigation links
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => {
-    if (isMenuOpen) {
+      if (!response.ok) {
+        throw new Error("Failed to shorten URL");
+      }
+
+      const data = await response.json();
+
+      // Create result container if it doesn't exist
+      let resultContainer = document.querySelector(".result-container");
+      if (!resultContainer) {
+        resultContainer = document.createElement("div");
+        resultContainer.className = "result-container";
+        urlForm.parentNode.insertBefore(resultContainer, urlForm.nextSibling);
+      }
+
+      // Update result container
+      resultContainer.innerHTML = `
+                <div class="result-box">
+                    <input type="text" value="${data.shortUrl}" readonly>
+                    <div class="button-group">
+                        <button class="action-btn copy-btn">
+                            <span class="material-icons">content_copy</span> Copy
+                        </button>
+                        <button class="action-btn visit-btn">
+                            <span class="material-icons">open_in_new</span> Visit
+                        </button>
+                    </div>
+                </div>
+            `;
+
+      // Add event listeners to new buttons
+      const copyBtn = resultContainer.querySelector(".copy-btn");
+      const visitBtn = resultContainer.querySelector(".visit-btn");
+
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(data.shortUrl);
+          copyBtn.innerHTML =
+            '<span class="material-icons">check</span> Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML =
+              '<span class="material-icons">content_copy</span> Copy';
+          }, 2000);
+        } catch (err) {
+          console.error("Failed to copy:", err);
+        }
+      });
+
+      visitBtn.addEventListener("click", () => {
+        window.open(data.originalUrl, "_blank");
+      });
+
+      resultContainer.style.display = "block";
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Failed to shorten URL. Please try again.");
+    }
+  });
+
+  // Mobile menu handling
+  hamburger.addEventListener("click", () => {
+    isMenuOpen = !isMenuOpen;
+    navLinks.classList.toggle("active");
+    hamburger.querySelector(".material-icons").textContent = isMenuOpen
+      ? "close"
+      : "menu";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      isMenuOpen &&
+      !navLinks.contains(e.target) &&
+      !hamburger.contains(e.target)
+    ) {
       isMenuOpen = false;
       navLinks.classList.remove("active");
       hamburger.querySelector(".material-icons").textContent = "menu";
     }
   });
-});
 
-// Contact Form Handling
-document.querySelector(".contact-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = {
-    name: e.target.querySelector('input[type="text"]').value,
-    email: e.target.querySelector('input[type="email"]').value,
-    message: e.target.querySelector("textarea").value,
-  };
-  console.log("Form submitted:", formData);
-  // Here you would typically send the data to your backend
-  alert("Thank you for your message! We will get back to you soon.");
-  e.target.reset();
+  // Close mobile menu when clicking navigation links
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (isMenuOpen) {
+        isMenuOpen = false;
+        navLinks.classList.remove("active");
+        hamburger.querySelector(".material-icons").textContent = "menu";
+      }
+    });
+  });
+
+  // Contact form handling
+  const contactForm = document.querySelector(".contact-form");
+  if (contactForm) {
+    const submitBtn = contactForm.querySelector(".submit-btn");
+
+    // Function to show error message
+    const showError = (message) => {
+      const error = document.getElementById("error");
+      error.textContent = message;
+      error.style.display = "block";
+      setTimeout(() => {
+        error.style.display = "none";
+      }, 5000);
+    };
+
+    // Function to handle contact form submission
+    const handleContactSubmit = (e) => {
+      e.preventDefault();
+
+      // Add success class to trigger animation
+      submitBtn.classList.add("success");
+
+      // Reset form
+      contactForm.reset();
+
+      // Remove success class after animation
+      setTimeout(() => {
+        submitBtn.classList.remove("success");
+      }, 3000);
+    };
+
+    // Event listeners
+    contactForm.addEventListener("submit", handleContactSubmit);
+  }
 });

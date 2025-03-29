@@ -10,11 +10,26 @@ const urlSchema = new mongoose.Schema(
     redirectURL: {
       type: String,
       required: true,
+      trim: true,
     },
-    visitHistory: [{ timestamp: { type: Number } }],
+    visitHistory: [
+      {
+        timestamp: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+// Create index for faster queries
+urlSchema.index({ shortId: 1 });
 
 const URL = mongoose.model("Url", urlSchema);
 

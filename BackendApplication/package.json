@@ -9,6 +9,7 @@
   "author": "adiraj1719",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "mongoose": "^8.9.2",
     "nanoid": "^3.3.8"

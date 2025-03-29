@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shortly</title>
+    <title>shortly - the URL Shortener</title>
+    <link rel="icon" type="image/svg+xml" href="Assets/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -40,6 +41,22 @@
                 </div>
                 <button type="submit" class="download-btn">Shorten</button>
             </form>
+
+            <div class="result-container" id="resultContainer">
+                <div class="result-box">
+                    <input type="text" id="shortUrl" readonly>
+                    <div class="button-group">
+                        <button id="copyBtn" class="action-btn copy-btn">
+                            <span class="material-icons">content_copy</span>
+                            Copy URL
+                        </button>
+                        <button id="visitBtn" class="action-btn visit-btn">
+                            <span class="material-icons">open_in_new</span>
+                            Visit URL
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <section id="features" class="section features-section">
@@ -133,7 +150,13 @@
                     <div class="form-group">
                         <textarea placeholder="Your Message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Send Message</span>
+                        <div class="success-animation">
+                            <span class="material-icons">check_circle</span>
+                            <span class="success-text">Sent Successfully!</span>
+                        </div>
+                    </button>
                 </form>
             </div>
         </section>
