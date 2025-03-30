@@ -1,9 +1,9 @@
 const config = {
   development: {
-    apiUrl: "http://localhost:8080",
+    apiUrl: "https://shortly-tkhg.onrender.com",
   },
   production: {
-    apiUrl: "https://your-production-api.com", // Update this with your production URL
+    apiUrl: "https://shortly-tkhg.onrender.com",
   },
 };
 
