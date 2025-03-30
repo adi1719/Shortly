@@ -10,20 +10,18 @@ const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 
-// Database connection with enhanced error handling
+// Database connection
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB Atlas");
-    console.log("Database URL:", process.env.MONGODB_URI);
     console.log("Environment:", process.env.NODE_ENV);
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
-    console.error("Connection string used:", process.env.MONGODB_URI);
-    process.exit(1); // Exit the process if database connection fails
+    process.exit(1);
   });
 
 // Add connection event listeners
