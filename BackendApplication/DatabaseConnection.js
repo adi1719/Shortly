@@ -1,11 +1,18 @@
 const mongoose = require("mongoose");
 
-async function connectToDb(url) {
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://localhost:27017/url-shortner";
+
+async function connectToDb() {
   try {
-    await mongoose.connect(url);
-    console.log("Connected to DB!");
+    console.log("Attempting to Create a Connection to MongoDB...");
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Successfully Connected to DB!");
   } catch (error) {
-    console.error("There was an Error Connecting to DB! :( \n ERROR:", error);
+    console.error("Error Connecting to DB:", error);
   }
 }
 

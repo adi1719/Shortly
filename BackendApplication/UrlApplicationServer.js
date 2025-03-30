@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,14 +12,38 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
 
-// Database connection
+// Database connection with enhanced error handling
 mongoose
-  .connect("mongodb://localhost:27017/url-shortner")
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB Atlas");
+    console.log("Database URL:", process.env.MONGODB_URI);
+    console.log("Environment:", process.env.NODE_ENV);
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    console.error("Connection string used:", process.env.MONGODB_URI);
+    process.exit(1); // Exit the process if database connection fails
+  });
+
+// Add connection event listeners
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB disconnected");
+});
+
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB connected");
+});
 
 // Routes
 app.use("/api/url", urlRoute);
+app.get("/ping", (req, res) => {
+  res.send("Hello PingPong, Backend is running buddy!");
+});
 
 // URL redirection endpoint
 app.get("/:shortId", async (req, res) => {

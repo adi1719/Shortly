@@ -1,3 +1,5 @@
+import config from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const urlForm = document.getElementById("urlForm");
   const urlInput = document.getElementById("urlInput");
@@ -27,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/url", {
+      const response = await fetch(`${config.apiUrl}/api/url`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
