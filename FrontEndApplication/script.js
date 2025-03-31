@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlForm = document.getElementById("urlForm");
   const urlInput = document.getElementById("urlInput");
   const pasteBtn = document.getElementById("pasteBtn");
+  const shortenBtn = document.getElementById("shortenBtn");
+  const btnText = shortenBtn.querySelector(".btn-text");
+  const spinner = shortenBtn.querySelector(".spinner");
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("navLinks");
   let isMenuOpen = false;
@@ -27,6 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Please enter a URL");
       return;
     }
+
+    // Show loading state
+    shortenBtn.disabled = true;
+    btnText.textContent = "Shortening";
+    spinner.classList.add("active");
+    shortenBtn.style.backgroundColor = "#4CAF50";
 
     try {
       const response = await fetch(`${config.apiUrl}/api/url`, {
@@ -92,6 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Error:", err);
       alert("Failed to shorten URL. Please try again.");
+    } finally {
+      // Reset button state
+      shortenBtn.disabled = false;
+      btnText.textContent = "Shorten";
+      spinner.classList.remove("active");
+      shortenBtn.style.backgroundColor = "var(--primary-color)";
     }
   });
 

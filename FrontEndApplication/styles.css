@@ -176,10 +176,39 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .download-btn:hover {
     background-color: var(--primary-dark);
+}
+
+.download-btn:disabled {
+    background-color: #4CAF50;
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.spinner {
+    display: none;
+    animation: spin 1s linear infinite;
+}
+
+.spinner.active {
+    display: inline-block;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .footer {
