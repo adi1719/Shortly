@@ -28,9 +28,6 @@ const urlSchema = new mongoose.Schema(
   }
 );
 
-// Create index for faster queries
-urlSchema.index({ shortId: 1 });
-
 const URL = mongoose.model("Url", urlSchema);
 
 module.exports = URL;
