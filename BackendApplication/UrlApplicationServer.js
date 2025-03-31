@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const urlRoute = require("./Routes/UrlRoute");
 const URL = require("./Models/UrlModel");
+const redis = require("./config/redis");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -43,9 +44,15 @@ app.get("/ping", (req, res) => {
   res.send("Hello PingPong, Backend is running buddy!");
 });
 
-// URL redirection endpoint
+// URL redirection endpoint with Redis caching
 app.get("/:shortId", async (req, res) => {
   try {
+    // Check Redis cache first
+    const cachedUrl = await redis.get(`redirect:${req.params.shortId}`);
+    if (cachedUrl) {
+      return res.redirect(cachedUrl);
+    }
+
     const entry = await URL.findOneAndUpdate(
       { shortId: req.params.shortId },
       { $push: { visitHistory: { timestamp: Date.now() } } },
@@ -55,6 +62,13 @@ app.get("/:shortId", async (req, res) => {
     if (!entry) {
       return res.status(404).json({ error: "Short URL not found" });
     }
+
+    // Cache the redirect URL
+    await redis.setex(
+      `redirect:${req.params.shortId}`,
+      24 * 60 * 60,
+      entry.redirectURL
+    );
 
     res.redirect(entry.redirectURL);
   } catch (error) {
