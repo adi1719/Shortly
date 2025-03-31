@@ -182,9 +182,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for database hosting
 - [Upstash](https://upstash.com/) for Redis hosting
 - [Render](https://render.com/) for deployment
-
-## Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
-
-Project Link: [https://github.com/yourusername/shortly](https://github.com/yourusername/shortly)
